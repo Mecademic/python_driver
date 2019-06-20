@@ -1,8 +1,10 @@
+![Mecademic](./docs/logo/mecademic_logo.jpg  "Mecademic")
+
 # Mecademic Python API
 
 A python module designed for Robot products from Mecademic. The module offers tools that give access to all the features of the Mecademic Robots such as MoveLin and MoveJoints. The module can be started from a terminal or a python application and controls the Mecademic Products. 
 
-####Supported Robots
+#### Supported Robots
 
  * Meca500 R3
 
@@ -33,24 +35,24 @@ To run a Mecademic Robot with the MecademicRobot package, two options present it
 
 #### Interactive Terminal 
 
-To use the MecademicRobot.py in an interactive terminal, the python file must be started with the -i modifier in a terminal as follows:
+To use the MecademicRobot package in an interactive terminal, the user can either run the python file RobotController.py with the -i modifier in a terminal as follows:
 
 ```
 C:Users\admin> python -i <file-path>/MecademicRobot.py 
 ```
-Or
+or
 ```
 C:<file-path>> python -i MecademicRobot.py 
 ```
-If the package is in your python package path, you can also start a python shell and import it then.
+or, if the package is in your python package path, you can also start a python shell and import it:
 ```
 C:<any-path>> python
 >>> import MecademicRobot
 ```
 
-This will open a python terminal with the module already imported. From there you need to connect to the Mecademic Robot before being able to perform actions. This is done by making an instance of the class MecademicRobot by passing the IP Address of the Robot as an argument and using the function Connect():
+This will open a python terminal with the module already imported. From there you need to connect to the Mecademic Robot before being able to perform actions. This is done by making an instance of the class RobotController by passing the IP Address of the Robot as an argument and using the function Connect():
 ```
->>> robot = MecademicRobot.MecademicRobot('192.168.0.100')
+>>> robot = MecademicRobot.RobotController('192.168.0.100')
 >>> robot.Connect()
 ```
 
@@ -61,7 +63,9 @@ Once succesfully connected to the Robot, you are able to start performing action
 >>> robot.Home()
 ```
 
-The Robot is now ready to perform operations. The user programming manual or the documentation in the module is sufficiant to be able to make the Robot perform actions and control the robot. When done with the Robot and desire to power it off, it must first be deactivated and disconnected to avoid issues and problems. It is done by two functions:
+The Robot is now ready to perform operations. [The user programming manual](https://mecademic.com/resources/documentation) or the documentation in the module is sufficiant to be able to make the Robot perform actions and control the robot. 
+
+When done with the Robot and desire to power it off, it must first be deactivated and disconnected to avoid issues and problems. It is done by two functions:
 
 ```
 >>> robot.Deactivate()
@@ -76,7 +80,7 @@ If during use the Robot encounters an error, it will go into error mode. In this
 
 #### Runnable Script
 
-For making a runnable script, the above functions calls remain the same in the script. Actions must be placed between activation and deactivation to avoid errors. Writing the script is like regular programming in python. It is recommended to have an error catcher to get the Robot out of error mode and not have the Robot stop working in the middle of operation. This can be creatively done by using the isInError() and action functions to catch the Robot immediately as it falls in error and bringing it back to operating condition. A method can be made to it like the following:
+To make a runnable script, the above functions calls remain the same in the script. Actions must be placed between an activation and a deactivation to avoid errors. Writing the script is like regular programming in python. It is recommended to have an error catcher to get the Robot out of error mode and not have the Robot stop working in the middle of operation. This can be creatively done by using the isInError() and action functions to catch the Robot immediately as it falls in error and bringing it back to operating condition. A method can be made to it like the following:
 ```py
 def AutoRepair(robot):
     if(robot.isInError()):
@@ -89,7 +93,7 @@ Note: Deactivating and reactivating the Robot is not necessary but can be helpfu
 An example of a script for a Mecademic Robot would be:
 ```py
 import MecademicRobot
-robot = MecademicRobot.MecademicRobot('192.168.0.100')
+robot = MecademicRobot.RobotController('192.168.0.100')
 robot.Connect()
 robot.Activate()
 robot.Home()
@@ -159,9 +163,27 @@ for action in movements:
 ```
 If the script you wrote is one you wish the Robot to repeat until stopped by a user for whatever reason, the previous loop can be placed inside an infinite loop. Using all the information, building blocks and functions provided, you are fully equipped to control and program your Mecademic Robot for your project's requirements.
 
-## Built With
+## Get Live Positional Feedback from the Robot
 
-* [Visual Studio Code](https://code.visualstudio.com/) - code editor
+The robot is capable of giving it's position while in movement and the RobotFeedback module of the MecademicRobot package allows the user to have access to that data. If the module is run in interactive shell or in a script, the best way to get data as fast as possible to another file or to be printed to the user is by using the module in an infinite loop. 
+```py
+import MecademicRobot
+feedback = MecademicRobot.RobotFeedback('192.168.0.100')
+feedback.Connect()
+while(True):
+	feedback.getData()
+	print(feedback.joints)
+	print(feedback.cartesian)
+```
+By calling __getData()__, the values of joints and cartesian get updated with the latest received data from the robot. The format of the data for joints is (joint_1, joint_2, ..., joint_n), where n is the number of joints on the Robot and the values are in degrees. For the format of the data in cartesian, the data is of the form (x, y, z, alpha, beta, gamma), where x, y and z are in mm and alpha, beta and gamma are in degrees. This module works at its best when it is run in parallel with RobotController, either as another runnable, threading, etc. When in parallel, the live data will be refreshed at a faster speed while controlling the robot. 
+
+## Getting Help
+
+To get support, you can start an issue on the Mecademic/python_driver issues section or send an email to support@mecademic.com.
+
+## License
+
+All packages in this repository are licensed under the MIT license.
 
 ## Authors 
 
