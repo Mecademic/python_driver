@@ -8,6 +8,7 @@ setuptools.setup(
     version="1.0.0",
     author="Mecademic",
     author_email="support@mecademic.com",
+    license = "MIT",
     description="A package to control the Mecademic Robots through python",
     long_description=long_description,
     long_description_content_type="markdown",
