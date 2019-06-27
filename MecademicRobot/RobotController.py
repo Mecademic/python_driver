@@ -11,7 +11,6 @@ class RobotController:
         End of Block: Setting for EOB reply
         End of Movement: Setting for EOM reply
         Error: Error Status of the Mecademic Robot
-        Motion Error : Flag for Motion Error
     """
     def __init__(self, address):
         """Constructor for an instance of the Class Mecademic Robot 
@@ -23,7 +22,6 @@ class RobotController:
         self.EOB = 1
         self.EOM = 1
         self.error = False
-        self.motionError = False
 
     def isInError(self):
         """Status method that checks whether the Mecademic Robot is in error mode.
@@ -78,6 +76,13 @@ class RobotController:
         except RuntimeError:
             return False
 
+    def Disconnect(self):
+        """Disconnects Mecademic Robot object from physical Mecademic Robot
+        """
+        if(self.socket is not None):
+            self.socket.close()
+            self.socket = None
+
     @staticmethod
     def _response_contains(response, code_list):
         """Scans received response for code IDs
@@ -93,13 +98,6 @@ class RobotController:
                 break
         return response_found
     
-    def Disconnect(self):
-        """Disconnects Mecademic Robot object from physical Mecademic Robot
-        """
-        if(self.socket is not None):
-            self.socket.close()
-            self.socket = None
-
     def _send(self, cmd):
         """Sends a command to the physical Mecademic Robot
 
@@ -147,8 +145,6 @@ class RobotController:
             error_found = self._response_contains(response, error_list) #search message for errors
         if error_found:                                 #if errors have been found, flag the script
             self.error = True
-            if self._response_contains(response,['3005']):
-                self.motionError = True
         return response                                 #return the retrieved message
 
     def exchangeMsg(self, cmd, delay = 20, decode=True):

@@ -159,7 +159,7 @@ The variable movements contains the list of actions to perform after getting rid
 for action in movements:
 	robot.exchangeMsg(action)
 	if(robot.isInError()):
-    	AutoRepair(robot)
+    		AutoRepair(robot)
 ```
 If the script you wrote is one you wish the Robot to repeat until stopped by a user for whatever reason, the previous loop can be placed inside an infinite loop. Using all the information, building blocks and functions provided, you are fully equipped to control and program your Mecademic Robot for your project's requirements.
 
