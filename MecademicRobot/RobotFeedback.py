@@ -21,9 +21,6 @@ class RobotFeedback:
         self.joints = ()    #Joint Angles, angles in degrees | [theta_1, theta_2, ... theta_n]
         self.cartesian = () #Cartesian coordinates, distances in mm, angles in degrees | [x,y,z,alpha,beta,gamma]
 
-
-       #connect to robot through socket
-    
     def Connect(self):
         """Connects Mecademic Robot object communication to the physical Mecademic Robot
         Returns the status of the connection, true for success, false for failure
@@ -40,7 +37,7 @@ class RobotFeedback:
             # Receive confirmation of connection
             if self.socket is None:                         #check that socket is not connected to nothing
                 raise RuntimeError
-            self.socket.settimeout(1)                      #set timeout to 10 seconds
+            self.socket.settimeout(1)                       #set timeout to 1 seconds
             try:    
                 self.getData()
                 return True
@@ -52,7 +49,6 @@ class RobotFeedback:
         except RuntimeError:
             return False
     
-    #Disconnect from socket
     def Disconnect(self):
         """Disconnects Mecademic Robot object from physical Mecademic Robot
         """
@@ -60,7 +56,6 @@ class RobotFeedback:
             self.socket.close()
             self.socket = None        
 
-    #receive message from the robot
     def getData(self, delay=0.1):
         """Receives message from the Mecademic Robot and 
         saves the values in appropriate variables

@@ -307,7 +307,7 @@ class RobotController:
         cmd = "DeactivateSim"
         return self.exchangeMsg(cmd)
 
-    def EtherCatMode(self):
+    def SwitchToEtherCAT(self):
         """Places the Mecademic Robot in EtherCat mode
         """
         cmd = "SwitchToEtherCAT"
