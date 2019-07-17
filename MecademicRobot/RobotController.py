@@ -979,7 +979,7 @@ class RobotController:
 
     def BrakesOn(self):
         r"""These commands enables the brakes of joints 1, 2 and 3,
-        if and only if the robotis powered but deactivated.
+        if and only if the robot is powered but deactivated.
         
         Returns
         --------
@@ -991,7 +991,7 @@ class RobotController:
     
     def BrakesOff(self):
         r"""These commands disables the brakes of joints 1, 2 and 3,
-        if and only if the robotis powered but deactivated.
+        if and only if the robot is powered but deactivated.
         
         Returns
         --------
