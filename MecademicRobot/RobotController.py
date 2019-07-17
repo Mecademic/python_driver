@@ -2,20 +2,29 @@ import socket
 import time
 
 class RobotController:
-    """Class for the Mecademic Robot allowing for communication and control of the 
+    r"""Class for the Mecademic Robot allowing for communication and control of the 
     Mecademic Robot with all of its features available
 
-    Attributes:
-        Address: IP Address
-        socket: socket connecting to physical Mecademic Robot
-        End of Block: Setting for EOB reply
-        End of Movement: Setting for EOM reply
-        Error: Error Status of the Mecademic Robot
+    Attributes
+    --------
+        Address: str
+            IP Address
+        socket: socket
+            socket connecting to physical Mecademic Robot
+        EOB: int
+            Setting for EOB reply
+        EOM: int 
+            Setting for EOM reply
+        error: boolean
+            Error Status of the Mecademic Robot
     """
     def __init__(self, address):
-        """Constructor for an instance of the Class Mecademic Robot 
+        r"""Constructor for an instance of the Class Mecademic Robot 
 
-        :param address: The IP address associated to the Mecademic Robot
+        Parameters
+        --------
+        address: str 
+            The IP address associated to the Mecademic Robot
         """
         self.address = address
         self.socket = None
@@ -24,15 +33,22 @@ class RobotController:
         self.error = False
 
     def isInError(self):
-        """Status method that checks whether the Mecademic Robot is in error mode.
-        Returns 1 for error and 0 otherwise.
+        r"""Status method that checks whether the Mecademic Robot is in error mode.
 
-        :return error: Returns the error flag
+        Returns
+        --------
+        error: boolean 
+            Returns the error flag
         """
         return self.error               #return the global variable error, which is updated by the other methods
 
     def ResetError(self):
-        """Resets the error in the Mecademic Robot 
+        r"""Resets the error in the Mecademic Robot 
+
+        Returns
+        --------
+        response : str
+            response from the Robot
         """
         self.error = False
         cmd = "ResetError"
@@ -45,10 +61,12 @@ class RobotController:
         return response
 
     def Connect(self):
-        """Connects Mecademic Robot object communication to the physical Mecademic Robot
-        Returns the status of the connection, true for success, false for failure
+        r"""Connects Mecademic Robot object communication to the physical Mecademic Robot
 
-        :return status: Return whether the connection is established
+        Returns
+        --------
+        status: boolean 
+            Return whether the connection is established
         """
         try:
             self.socket = socket.socket()                   #Get a socket
@@ -77,7 +95,7 @@ class RobotController:
             return False
 
     def Disconnect(self):
-        """Disconnects Mecademic Robot object from physical Mecademic Robot
+        r"""Disconnects Mecademic Robot object from physical Mecademic Robot
         """
         if(self.socket is not None):
             self.socket.close()
@@ -85,11 +103,19 @@ class RobotController:
 
     @staticmethod
     def _response_contains(response, code_list):
-        """Scans received response for code IDs
+        r"""Scans received response for code IDs
 
-        :param response: Message to scan for codes
-        :param code_list: List of codes to look for in the response
-        :return response_found: Returns whether the response contains a code ID of interest 
+        Parameters
+        --------
+        response: str
+            Message to scan for codes
+        code_list: list of int 
+            List of codes to look for in the response
+        
+        Returns
+        --------
+        response_found: boolean
+            Returns whether the response contains a code ID of interest 
         """
         response_found = False
         for code in code_list:
@@ -99,10 +125,17 @@ class RobotController:
         return response_found
     
     def _send(self, cmd):
-        """Sends a command to the physical Mecademic Robot
+        r"""Sends a command to the physical Mecademic Robot
 
-        :param cmd: Command to be sent  (string)
-        :return status: Returns whether the message is sent (boolean)
+        Parameters
+        --------
+        cmd: str 
+            Command to be sent
+
+        Returns
+        --------    
+        status: boolean
+            Returns whether the message is sent
         """
         if self.socket is None or self.error:               #check that the connection is established or the robot is in error
             return False                                    #if issues detected, no point in trying to send a cmd that won't reach the robot
@@ -119,12 +152,20 @@ class RobotController:
         return False        
 
     def _receive(self, answer_list, delay):
-        """Receives message from the Mecademic Robot and 
+        r"""Receives message from the Mecademic Robot and 
         looks for expected answer in the reply
 
-        :param answer_list: codes to look for in the response (list)
-        :param delay: time to set for timeout of the socket (int)
-        :return response: Response received from Mecademic Robot (string)
+        Parameters
+        --------
+        answer_list: list of int
+            codes to look for in the response
+        delay: int
+            time to set for timeout of the socket
+        
+        Returns
+        --------
+        response: str
+            Response received from Mecademic Robot
         """
         if self.socket is None:                         #check that the connection is established
             return                                      #if no connection, nothing to receive
@@ -148,11 +189,19 @@ class RobotController:
         return response                                 #return the retrieved message
 
     def exchangeMsg(self, cmd, delay = 20, decode=True):
-        """Sends and receives with the Mecademic Robot
+        r"""Sends and receives with the Mecademic Robot
 
-        :param cmd: Command to send to the Mecademic Robot  (string)
-        :param delay: timeout to set for the socket (int)
-        :return response: Response with desired code ID (string)
+        Parameters
+        --------
+        cmd: str
+            Command to send to the Mecademic Robot
+        delay: int
+            timeout to set for the socket
+        
+        Returns
+        --------
+        response: str
+            Response with desired code ID
         """
         response_list = self._getAnswerList(cmd)
         if(not self.error):                                 #if there is no error
@@ -186,12 +235,20 @@ class RobotController:
             return
 
     def _buildCommand(self, cmd, arg_list = []):
-        """Builds the command string to send to the Mecademic Robot
+        r"""Builds the command string to send to the Mecademic Robot
         from the function name and arguments the command needs
 
-        :param cmd: command name to send to the Mecademic Robot
-        :param arg_list: list of arguments the command requires
-        :return command: final command for the Mecademic Robot
+        Parameters
+        ---------
+        cmd: str
+            command name to send to the Mecademic Robot
+        arg_list: list
+            arguments the command requires to concatenate to the command
+        
+        Returns
+        --------
+        command: str 
+            final command for the Mecademic Robot
         """
         command = cmd
         if(len(arg_list)!=0):
@@ -202,12 +259,20 @@ class RobotController:
         return command
 
     def _decodeMsg(self,response, response_key):
-        """Decrypt information from the Mecademic Robot response to useful information
+        r"""Decrypt information from the Mecademic Robot response to useful information
         that can be manipulated
 
-        :param response: Response from the Mecademic Robot
-        :param response_key: Code ID of response to decrypt
-        :return code: Decrypted information
+        Parameters
+        --------
+        response: str 
+            Response from the Mecademic Robot
+        response_key: int 
+            Code ID of response to decrypt
+        
+        Returns
+        --------
+        code: str, tuple of floats or tuple of ints
+            Decrypted information in the format that best fits the raw message
         """
         code = response.replace("["+str(response_key)+"][", "").replace("]", "").replace("\x00", "")    #remove delimiters and \x00 bytes
         code_list = code.split(",")                         #split packets into their individual selves
@@ -221,11 +286,18 @@ class RobotController:
             return code                                      #nothing to decrypt or decryption not specified
 
     def _getAnswerList(self, command):
-        """Retrieve the expected answer codes that the Mecademic Robot should send as feedback after
+        r"""Retrieve the expected answer codes that the Mecademic Robot should send as feedback after
         a command.
 
-        :param command: command that is to be sent to the Mecademic Robot (string)
-        :return answer_list: list of answer codes to search for in response (list)
+        Parameters
+        --------
+        command: str
+            command that is to be sent to the Mecademic Robot
+
+        Returns
+        --------
+        answer_list: list of ints
+            list of answer codes to search for in response
         """
         if(command.find('ActivateRobot') != -1):
             return [2000,2001]
@@ -276,9 +348,12 @@ class RobotController:
             return answer_list
 
     def Activate(self):
-        """Activates the Mecademic Robot 
+        r"""Activates the Mecademic Robot 
 
-        :return response: Returns receive decrypted response
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "ActivateRobot"
         return self.exchangeMsg(cmd)
@@ -286,38 +361,59 @@ class RobotController:
     def Deactivate(self):
         """Deactivates the Mecademic Robot 
 
-        :return response: Returns receive decrypted response
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "DeactivateRobot"
         return self.exchangeMsg(cmd)
 
     def ActivateSim(self):
-        """Activates the Mecademic Robot simulation mode 
+        r"""Activates the Mecademic Robot simulation mode 
 
-        :return response: Returns receive decrypted response
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "ActivateSim"
         return self.exchangeMsg(cmd)
 
     def DeactivateSim(self):
-        """Deactivate the Mecademic Robot simulation mode 
+        r"""Deactivate the Mecademic Robot simulation mode 
 
-        :return response: Returns receive decrypted response
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "DeactivateSim"
         return self.exchangeMsg(cmd)
 
     def SwitchToEtherCAT(self):
-        """Places the Mecademic Robot in EtherCat mode
+        r"""Places the Mecademic Robot in EtherCat mode
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "SwitchToEtherCAT"
         return self.exchangeMsg(cmd)
     
     def SetEOB(self, e):
-        """Sets End of Block answer active or inactive in the Mecademic Robot
+        r"""Sets End of Block answer active or inactive in the Mecademic Robot
 
-        :param e: Enables (1) EOB or Disables (0) EOB
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        e: int
+            Enables (1) EOB or Disables (0) EOB
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         if(e == 1):
             self.EOB = 1
@@ -328,10 +424,17 @@ class RobotController:
         return self.exchangeMsg(cmd)
         
     def SetEOM(self, e):
-        """Sets End of Movement answer active or inactive in the Mecademic Robot
-
-        :param e: Enables (1) EOM or Disables (0) EOM
-        :return response: Returns receive decrypted response
+        r"""Sets End of Movement answer active or inactive in the Mecademic Robot
+        
+        Parameters
+        --------
+        e: int 
+            Enables (1) EOM or Disables (0) EOM
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         if(e == 1):
             self.EOM = 1
@@ -342,17 +445,28 @@ class RobotController:
         return self.exchangeMsg(cmd)    
 
     def Home(self):
-        """Homes the Mecademic Robot
+        r"""Homes the Mecademic Robot
 
-        :return response: Returns receive decrypted response
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "Home"
         return self.exchangeMsg(cmd)
 
     def Delay(self, t):
-        """Gives the Mecademic Robot a wait time before performing another action
+        r"""Gives the Mecademic Robot a wait time before performing another action
 
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        t : float or int
+            time to delay the Robot
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         if(not isinstance(t,float)):
             t = float(t)
@@ -361,240 +475,404 @@ class RobotController:
         return self.exchangeMsg(cmd, t*2)
 
     def GripperOpen(self):
-        """Opens the gripper of the end-effector
+        r"""Opens the gripper of the end-effector
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = 'GripperOpen'
         return self.exchangeMsg(cmd)
 
     def GripperClose(self):
-        """Closes the gripper of the end-effector
+        r"""Closes the gripper of the end-effector
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = 'GripperClose'
         return self.exchangeMsg(cmd)
 
     def MoveJoints(self, theta_1, theta_2, theta_3, theta_4, theta_5, theta_6):
-        """Moves the joints of the Mecademic Robot to the desired angles
+        r"""Moves the joints of the Mecademic Robot to the desired angles
         
-        :param theta_1: Angle of joint 1
-        :param theta_2: Angle of joint 2
-        :param theta_3: Angle of joint 3
-        :param theta_4: Angle of joint 4
-        :param theta_5: Angle of joint 5
-        :param theta_6: Angle of joint 6
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        theta_1: float or int
+            Angle of joint 1
+        theta_2: float or int
+            Angle of joint 2
+        theta_3: float or int
+            Angle of joint 3
+        theta_4: float or int
+            Angle of joint 4
+        theta_5: float or int
+            Angle of joint 5
+        theta_6: float or int
+            Angle of joint 6
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "MoveJoints"
         cmd = self._buildCommand(raw_cmd,[theta_1,theta_2,theta_3,theta_4,theta_5,theta_6])
         return self.exchangeMsg(cmd)
 
     def MoveLin(self, x, y, z, alpha, beta, gamma):
-        """Moves the Mecademic Robot tool reference in a straight line to final
+        r"""Moves the Mecademic Robot tool reference in a straight line to final
         point with specified direction
 
-        :param x: Final x coordinate
-        :param y: Final y coordinate
-        :param z: Final z coordinate
-        :param alpha: Final Alpha angle
-        :param beta: Final Beta angle
-        :param gamma: Final Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            Final x coordinate
+        y: float or int
+            Final y coordinate
+        z: float or int
+            Final z coordinate
+        alpha: float or int
+            Final Alpha angle
+        beta: float or int
+            Final Beta angle
+        gamma: float or int
+            Final Gamma angle
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "MoveLin"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
 
     def MoveLinRelTRF(self, x, y, z, alpha, beta, gamma):
-        """Moves the Mecademic Robot tool reference frame to specified coordinates and heading
+        r"""Moves the Mecademic Robot tool reference frame to specified coordinates and heading
 
-        :param x: New Reference x coordinate
-        :param y: New Reference y coordinate
-        :param z: New Reference z coordinate
-        :param alpha: New Reference Alpha angle
-        :param beta: New Reference Beta angle
-        :param gamma: New Reference Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            New Reference x coordinate
+        y: float or int
+            New Reference y coordinate
+        z: float or int
+            New Reference z coordinate
+        alpha: float or int
+            New Reference Alpha angle
+        beta: float or int
+            New Reference Beta angle
+        gamma: float or int
+            New Reference Gamma angle
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "MoveLinRelTRF"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
 
     def MoveLinRelWRF(self, x, y, z, alpha, beta, gamma):
-        """Moves the Mecademic Robot world reference frame to specified coordinates and heading
+        r"""Moves the Mecademic Robot world reference frame to specified coordinates and heading
 
-        :param x: New Reference x coordinate
-        :param y: New Reference y coordinate
-        :param z: New Reference z coordinate
-        :param alpha: New Reference Alpha angle
-        :param beta: New Reference Beta angle
-        :param gamma: New Reference Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            New Reference x coordinate
+        y: float or int
+            New Reference y coordinate
+        z: float or int
+            New Reference z coordinate
+        alpha: float or int
+            New Reference Alpha angle
+        beta: float or int
+            New Reference Beta angle
+        gamma: float or int
+            New Reference Gamma angle
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "MoveLinRelWRF"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
 
     def MovePose(self, x, y, z, alpha, beta, gamma):
-        """Moves the Mecademic Robot joints to have the TRF at (x,y,z)
+        r"""Moves the Mecademic Robot joints to have the TRF at (x,y,z)
         with heading (alpha, beta, gamma)
 
-        :param x: Final x coordinate
-        :param y: Final y coordinate
-        :param z: Final z coordinate
-        :param alpha: Final Alpha angle
-        :param beta: Final Beta angle
-        :param gamma: Final Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            Final x coordinate
+        y: float or int
+            Final y coordinate
+        z: float or int
+            Final z coordinate
+        alpha: float or int
+            Final Alpha angle
+        beta: float or int
+            Final Beta angle
+        gamma: float or int
+            Final Gamma angle
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "MovePose"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
 
     def SetBlending(self, p):
-        """Sets the blending of the Mecademic Robot
-
-        :param p: Enable(1-100)/Disable(0) Mecademic Robot's blending
-        :return response: Returns receive decrypted response
+        r"""Sets the blending of the Mecademic Robot
+        
+        Parameters
+        --------
+        p: int
+            Enable(1-100)/Disable(0) Mecademic Robot's blending
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetBlending"
         cmd = self._buildCommand(raw_cmd,[p])
         return self.exchangeMsg(cmd)
 
     def SetAutoConf(self, e):
-        """Enables or Disables the automatic robot configuration 
+        r"""Enables or Disables the automatic robot configuration 
         selection and has effect only on the MovePose command
-
-        :param e: Enable(1)/Disable(0) Mecademic Robot's automatic configuration selection
-        :return response: Returns receive decrypted response
+        
+        Parameters
+        --------
+        e: int
+            Enable(1)/Disable(0) Mecademic Robot's automatic configuration selection
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetAutoConf"
         cmd = self._buildCommand(raw_cmd,[e])
         return self.exchangeMsg(cmd)
 
     def SetCartAcc(self, p):
-        """Sets the cartesian accelerations of the linear and angular movements of the 
+        r"""Sets the cartesian accelerations of the linear and angular movements of the 
         Mecademic Robot end effector
 
-        :param p: value between 1 and 100
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        p: int
+            value between 1 and 100
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetCartAcc"
         cmd = self._buildCommand(raw_cmd,[p])
         return self.exchangeMsg(cmd)
 
     def SetCartAngVel(self, w):
-        """Sets the cartesian angular velocity of the Mecademic Robot TRF with respect to its WRF
+        r"""Sets the cartesian angular velocity of the Mecademic Robot TRF with respect to its WRF
 
-        :param w: value between 0.001 and 180
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        w: float or int
+            value between 0.001 and 180
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetCartAngVel"
         cmd = self._buildCommand(raw_cmd,[w])
         return self.exchangeMsg(cmd)
 
     def SetCartLinVel(self, v):
-        """Sets the cartesian linear velocity of the Mecademic Robot's TRF relative to its WRF
+        r"""Sets the cartesian linear velocity of the Mecademic Robot's TRF relative to its WRF
 
-        :param v: between 0.001 and 500
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        v: float or int
+            value between 0.001 and 500
+
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetCartLinVel"
         cmd = self._buildCommand(raw_cmd,[v])
         return self.exchangeMsg(cmd)
 
     def SetConf(self, c1, c3, c5):
-        """Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the 
+        r"""Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the 
         MovePose command
 
-        :param c1: -1 or 1
-        :param c3: -1 or 1
-        :param c5: -1 or 1
-        :return response: Returns received decrypted response
+        Parameters
+        --------
+        c1: int 
+            -1 or 1
+        c3: int 
+            -1 or 1
+        c5: int 
+            -1 or 1
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetConf"
         cmd = self._buildCommand(raw_cmd,[c1,c3,c5])
         return self.exchangeMsg(cmd)
     
     def SetGripperForce(self, p):
-        """Sets the Gripper's grip force
+        r"""Sets the Gripper's grip force
 
-        :param p: value between 1 to 100
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Parameters
+        --------
+        p: int
+            value between 1 to 100
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetGripperForce"
         cmd = self._buildCommand(raw_cmd,[p])
         return self.exchangeMsg(cmd)
 
     def SetGripperVel(self, p):
-        """Sets the Gripper fingers' velocity with respect to the gripper
+        r"""Sets the Gripper fingers' velocity with respect to the gripper
 
-        :param p: value between 1 to 100
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Parameters
+        --------
+        p: int
+            value between 1 to 100
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetGripperVel"
         cmd = self._buildCommand(raw_cmd,[p])
         return self.exchangeMsg(cmd)
     
     def SetJointAcc(self, p):
-        """Sets the acceleration of the joints
+        r"""Sets the acceleration of the joints
 
-        :param p: value between 1 to 100
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Parameters
+        --------
+        p: int
+            value between 1 to 100
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetJointAcc"
         cmd = self._buildCommand(raw_cmd,[p])
         return self.exchangeMsg(cmd)
     
     def SetJointVel(self, velocity):
-        """Sets the angular velocities of the Mecademic Robot's joints
+        r"""Sets the angular velocities of the Mecademic Robot's joints
 
-        :param velocity: value between 1 to 100
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Parameters
+        --------
+        velocity: int
+            value between 1 to 100
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetJointVel"
         cmd = self._buildCommand(raw_cmd,[velocity])
         return self.exchangeMsg(cmd)
 
     def SetTRF(self, x, y, z, alpha, beta, gamma):
-        """Sets the Mecademic Robot TRF at (x,y,z) and heading (alpha, beta, gamma)
+        r"""Sets the Mecademic Robot TRF at (x,y,z) and heading (alpha, beta, gamma)
         with respect to the FRF
 
-        :param x: Final x coordinate
-        :param y: Final y coordinate
-        :param z: Final z coordinate
-        :param alpha: Final Alpha angle
-        :param beta: Final Beta angle
-        :param gamma: Final Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            Final x coordinate
+        y: float or int
+            Final y coordinate
+        z: float or int
+            Final z coordinate
+        alpha: float or int
+            Final Alpha angle
+        beta: float or int
+            Final Beta angle
+        gamma: float or int
+            Final Gamma angle
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetTRF"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
     
     def SetWRF(self, x, y, z, alpha, beta, gamma):
-        """Sets the Mecademic Robot WRF at (x,y,z) and heading (alpha, beta, gamma)
+        r"""Sets the Mecademic Robot WRF at (x,y,z) and heading (alpha, beta, gamma)
         with respect to the BRF
 
-        :param x: Final x coordinate
-        :param y: Final y coordinate
-        :param z: Final z coordinate
-        :param alpha: Final Alpha angle
-        :param beta: Final Beta angle
-        :param gamma: Final Gamma angle
-        :return response: Returns receive decrypted response
+        Parameters
+        --------
+        x: float or int
+            Final x coordinate
+        y: float or int
+            Final y coordinate
+        z: float or int 
+            Final z coordinate
+        alpha: float or int 
+            Final Alpha angle
+        beta: float or int
+            Final Beta angle
+        gamma: float or int
+            Final Gamma angle
+        
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         raw_cmd = "SetWRF"
         cmd = self._buildCommand(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchangeMsg(cmd)
 
     def GetStatusRobot(self):
-        """Retrieves the robot status of the Mecademic Robot 
+        r"""Retrieves the robot status of the Mecademic Robot 
 
-        :return status: Returns tuple with status of Activation, Homing, Simulation
-        Error, Paused, EOB and EOM
+        Returns
+        --------
+        status: tuple of int
+            status of Activation, Homing, Simulation, Error, Paused, EOB and EOM
         """
         received = None
         while received is None:
@@ -610,10 +888,13 @@ class RobotController:
                 "EOM": code_list_int[6]}
     
     def GetStatusGripper(self):
-        """Retrieves the gripper status of the Mecademic Robot 
+        r"""Retrieves the gripper status of the Mecademic Robot 
 
-        :return status: Returns tuple with status of Gripper enabled, Homing state, Holding part
-        Limit reached, Error state and force overload
+        Returns
+        --------
+        status: tuple of int
+            status of Gripper enabled, Homing state, Holding part, 
+            Limit reached, Error state and force overload
         """
         received = None
         while received is None:
@@ -628,70 +909,94 @@ class RobotController:
                 "force overload": code_list_int[5]}
 
     def GetConf(self):
-        """Retrieves the current inverse kinematic configuration
+        r"""Retrieves the current inverse kinematic configuration
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "GetConf"
         return self.exchangeMsg(cmd)
 
     def GetJoints(self):
-        """Retrieves the Mecademic Robot joint angles in degrees
+        r"""Retrieves the Mecademic Robot joint angles in degrees
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "GetJoints"
         return self.exchangeMsg(cmd)
 
     def GetPose(self):
-        """Retrieves the current pose of the Mecademic Robot TRF with
+        r"""Retrieves the current pose of the Mecademic Robot TRF with
         respect to the WRF
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "GetPose"
         return self.exchangeMsg(cmd)
 
     def PauseMotion(self):
-        """Stops the robot movement and holds until ResumeMotion
+        r"""Stops the robot movement and holds until ResumeMotion
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "PauseMotion"
         return self.exchangeMsg(cmd)
 
     def ResumeMotion(self):
-        """Resumes the robot movement after being Paused from PauseMotion
+        r"""Resumes the robot movement after being Paused from PauseMotion
         or ClearMotion
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "ResumeMotion"
         return self.exchangeMsg(cmd)
 
     def ClearMotion(self):
-        """Stops the robot movement and deletes the rest of the robot's
+        r"""Stops the robot movement and deletes the rest of the robot's
         trajectory. Holds until a ResumeMotion
 
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "ClearMotion"
         return self.exchangeMsg(cmd)
 
     def BrakesOn(self):
-        """These commands enables the brakes of joints 1, 2 and 3,
+        r"""These commands enables the brakes of joints 1, 2 and 3,
         if and only if the robotis powered but deactivated.
         
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "BrakesOn"
         return self.exchangeMsg(cmd)
     
     def BrakesOff(self):
-        """These commands disables the brakes of joints 1, 2 and 3,
+        r"""These commands disables the brakes of joints 1, 2 and 3,
         if and only if the robotis powered but deactivated.
         
-        :return response: Returns the decrypted response from the Mecademic Robot
+        Returns
+        --------
+        response: str
+            received decrypted response
         """
         cmd = "BrakesOff"
         return self.exchangeMsg(cmd)

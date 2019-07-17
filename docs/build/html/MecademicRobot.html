@@ -1,0 +1,983 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>MecademicRobot package &#8212; MecademicRobot 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MecademicRobot 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mecademicrobot-package">
+<h1>MecademicRobot package<a class="headerlink" href="#mecademicrobot-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-MecademicRobot.RobotController">
+<span id="mecademicrobot-robotcontroller-module"></span><h2>MecademicRobot.RobotController module<a class="headerlink" href="#module-MecademicRobot.RobotController" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="MecademicRobot.RobotController.RobotController">
+<em class="property">class </em><code class="sig-prename descclassname">MecademicRobot.RobotController.</code><code class="sig-name descname">RobotController</code><span class="sig-paren">(</span><em class="sig-param">address</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for the Mecademic Robot allowing for communication and control of the
+Mecademic Robot with all of its features available</p>
+<dl class="attribute">
+<dt id="MecademicRobot.RobotController.RobotController.Address">
+<code class="sig-name descname">Address</code><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Address" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP Address</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotController.RobotController.socket">
+<code class="sig-name descname">socket</code><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>socket connecting to physical Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>socket</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotController.RobotController.EOB">
+<code class="sig-name descname">EOB</code><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.EOB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setting for EOB reply</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotController.RobotController.EOM">
+<code class="sig-name descname">EOM</code><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.EOM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setting for EOM reply</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotController.RobotController.error">
+<code class="sig-name descname">error</code><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error Status of the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Activate">
+<code class="sig-name descname">Activate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Activate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activates the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.ActivateSim">
+<code class="sig-name descname">ActivateSim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.ActivateSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activates the Mecademic Robot simulation mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.BrakesOff">
+<code class="sig-name descname">BrakesOff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.BrakesOff" title="Permalink to this definition">¶</a></dt>
+<dd><p>These commands disables the brakes of joints 1, 2 and 3,
+if and only if the robotis powered but deactivated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.BrakesOn">
+<code class="sig-name descname">BrakesOn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.BrakesOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>These commands enables the brakes of joints 1, 2 and 3,
+if and only if the robotis powered but deactivated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.ClearMotion">
+<code class="sig-name descname">ClearMotion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.ClearMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the robot movement and deletes the rest of the robot’s
+trajectory. Holds until a ResumeMotion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Connect">
+<code class="sig-name descname">Connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects Mecademic Robot object communication to the physical Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>status</strong> – Return whether the connection is established</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Deactivate">
+<code class="sig-name descname">Deactivate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Deactivate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deactivates the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.DeactivateSim">
+<code class="sig-name descname">DeactivateSim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.DeactivateSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deactivate the Mecademic Robot simulation mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Delay">
+<code class="sig-name descname">Delay</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Delay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the Mecademic Robot a wait time before performing another action</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>float</em><em> or </em><em>int</em>) – time to delay the Robot</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Disconnect">
+<code class="sig-name descname">Disconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnects Mecademic Robot object from physical Mecademic Robot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GetConf">
+<code class="sig-name descname">GetConf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GetConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current inverse kinematic configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GetJoints">
+<code class="sig-name descname">GetJoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GetJoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the Mecademic Robot joint angles in degrees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GetPose">
+<code class="sig-name descname">GetPose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GetPose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the current pose of the Mecademic Robot TRF with
+respect to the WRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GetStatusGripper">
+<code class="sig-name descname">GetStatusGripper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GetStatusGripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the gripper status of the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>status</strong> – status of Gripper enabled, Homing state, Holding part,
+Limit reached, Error state and force overload</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GetStatusRobot">
+<code class="sig-name descname">GetStatusRobot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GetStatusRobot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the robot status of the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>status</strong> – status of Activation, Homing, Simulation, Error, Paused, EOB and EOM</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GripperClose">
+<code class="sig-name descname">GripperClose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GripperClose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the gripper of the end-effector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.GripperOpen">
+<code class="sig-name descname">GripperOpen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.GripperOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the gripper of the end-effector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.Home">
+<code class="sig-name descname">Home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.Home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Homes the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.MoveJoints">
+<code class="sig-name descname">MoveJoints</code><span class="sig-paren">(</span><em class="sig-param">theta_1</em>, <em class="sig-param">theta_2</em>, <em class="sig-param">theta_3</em>, <em class="sig-param">theta_4</em>, <em class="sig-param">theta_5</em>, <em class="sig-param">theta_6</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.MoveJoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the joints of the Mecademic Robot to the desired angles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta_1</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 1</p></li>
+<li><p><strong>theta_2</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 2</p></li>
+<li><p><strong>theta_3</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 3</p></li>
+<li><p><strong>theta_4</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 4</p></li>
+<li><p><strong>theta_5</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 5</p></li>
+<li><p><strong>theta_6</strong> (<em>float</em><em> or </em><em>int</em>) – Angle of joint 6</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.MoveLin">
+<code class="sig-name descname">MoveLin</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.MoveLin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the Mecademic Robot tool reference in a straight line to final
+point with specified direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – Final x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – Final y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – Final z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – Final Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – Final Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – Final Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.MoveLinRelTRF">
+<code class="sig-name descname">MoveLinRelTRF</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.MoveLinRelTRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the Mecademic Robot tool reference frame to specified coordinates and heading</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.MoveLinRelWRF">
+<code class="sig-name descname">MoveLinRelWRF</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.MoveLinRelWRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the Mecademic Robot world reference frame to specified coordinates and heading</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – New Reference Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.MovePose">
+<code class="sig-name descname">MovePose</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.MovePose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the Mecademic Robot joints to have the TRF at (x,y,z)
+with heading (alpha, beta, gamma)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – Final x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – Final y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – Final z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – Final Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – Final Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – Final Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.PauseMotion">
+<code class="sig-name descname">PauseMotion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.PauseMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the robot movement and holds until ResumeMotion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.ResetError">
+<code class="sig-name descname">ResetError</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.ResetError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the error in the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – response from the Robot</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.ResumeMotion">
+<code class="sig-name descname">ResumeMotion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.ResumeMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resumes the robot movement after being Paused from PauseMotion
+or ClearMotion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetAutoConf">
+<code class="sig-name descname">SetAutoConf</code><span class="sig-paren">(</span><em class="sig-param">e</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetAutoConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables or Disables the automatic robot configuration
+selection and has effect only on the MovePose command</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<em>int</em>) – Enable(1)/Disable(0) Mecademic Robot’s automatic configuration selection</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetBlending">
+<code class="sig-name descname">SetBlending</code><span class="sig-paren">(</span><em class="sig-param">p</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetBlending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the blending of the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>int</em>) – Enable(1-100)/Disable(0) Mecademic Robot’s blending</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetCartAcc">
+<code class="sig-name descname">SetCartAcc</code><span class="sig-paren">(</span><em class="sig-param">p</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetCartAcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the cartesian accelerations of the linear and angular movements of the
+Mecademic Robot end effector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>int</em>) – value between 1 and 100</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetCartAngVel">
+<code class="sig-name descname">SetCartAngVel</code><span class="sig-paren">(</span><em class="sig-param">w</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetCartAngVel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the cartesian angular velocity of the Mecademic Robot TRF with respect to its WRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>w</strong> (<em>float</em><em> or </em><em>int</em>) – value between 0.001 and 180</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetCartLinVel">
+<code class="sig-name descname">SetCartLinVel</code><span class="sig-paren">(</span><em class="sig-param">v</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetCartLinVel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the cartesian linear velocity of the Mecademic Robot’s TRF relative to its WRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>float</em><em> or </em><em>int</em>) – value between 0.001 and 500</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetConf">
+<code class="sig-name descname">SetConf</code><span class="sig-paren">(</span><em class="sig-param">c1</em>, <em class="sig-param">c3</em>, <em class="sig-param">c5</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the
+MovePose command</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c1</strong> (<em>int</em>) – -1 or 1</p></li>
+<li><p><strong>c3</strong> (<em>int</em>) – -1 or 1</p></li>
+<li><p><strong>c5</strong> (<em>int</em>) – -1 or 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetEOB">
+<code class="sig-name descname">SetEOB</code><span class="sig-paren">(</span><em class="sig-param">e</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetEOB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets End of Block answer active or inactive in the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<em>int</em>) – Enables (1) EOB or Disables (0) EOB</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetEOM">
+<code class="sig-name descname">SetEOM</code><span class="sig-paren">(</span><em class="sig-param">e</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetEOM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets End of Movement answer active or inactive in the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<em>int</em>) – Enables (1) EOM or Disables (0) EOM</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetGripperForce">
+<code class="sig-name descname">SetGripperForce</code><span class="sig-paren">(</span><em class="sig-param">p</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetGripperForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Gripper’s grip force</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>int</em>) – value between 1 to 100</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetGripperVel">
+<code class="sig-name descname">SetGripperVel</code><span class="sig-paren">(</span><em class="sig-param">p</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetGripperVel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Gripper fingers’ velocity with respect to the gripper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>int</em>) – value between 1 to 100</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetJointAcc">
+<code class="sig-name descname">SetJointAcc</code><span class="sig-paren">(</span><em class="sig-param">p</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetJointAcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the acceleration of the joints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>int</em>) – value between 1 to 100</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetJointVel">
+<code class="sig-name descname">SetJointVel</code><span class="sig-paren">(</span><em class="sig-param">velocity</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetJointVel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the angular velocities of the Mecademic Robot’s joints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>velocity</strong> (<em>int</em>) – value between 1 to 100</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetTRF">
+<code class="sig-name descname">SetTRF</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetTRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Mecademic Robot TRF at (x,y,z) and heading (alpha, beta, gamma)
+with respect to the FRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – Final x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – Final y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – Final z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – Final Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – Final Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – Final Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SetWRF">
+<code class="sig-name descname">SetWRF</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">z</em>, <em class="sig-param">alpha</em>, <em class="sig-param">beta</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SetWRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Mecademic Robot WRF at (x,y,z) and heading (alpha, beta, gamma)
+with respect to the BRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – Final x coordinate</p></li>
+<li><p><strong>y</strong> (<em>float</em><em> or </em><em>int</em>) – Final y coordinate</p></li>
+<li><p><strong>z</strong> (<em>float</em><em> or </em><em>int</em>) – Final z coordinate</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>int</em>) – Final Alpha angle</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em> or </em><em>int</em>) – Final Beta angle</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> or </em><em>int</em>) – Final Gamma angle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.SwitchToEtherCAT">
+<code class="sig-name descname">SwitchToEtherCAT</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.SwitchToEtherCAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Places the Mecademic Robot in EtherCat mode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>response</strong> – received decrypted response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.exchangeMsg">
+<code class="sig-name descname">exchangeMsg</code><span class="sig-paren">(</span><em class="sig-param">cmd</em>, <em class="sig-param">delay=20</em>, <em class="sig-param">decode=True</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.exchangeMsg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends and receives with the Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<em>str</em>) – Command to send to the Mecademic Robot</p></li>
+<li><p><strong>delay</strong> (<em>int</em>) – timeout to set for the socket</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – Response with desired code ID</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotController.RobotController.isInError">
+<code class="sig-name descname">isInError</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotController.RobotController.isInError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status method that checks whether the Mecademic Robot is in error mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>error</strong> – Returns the error flag</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-MecademicRobot.RobotFeedback">
+<span id="mecademicrobot-robotfeedback-module"></span><h2>MecademicRobot.RobotFeedback module<a class="headerlink" href="#module-MecademicRobot.RobotFeedback" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback">
+<em class="property">class </em><code class="sig-prename descclassname">MecademicRobot.RobotFeedback.</code><code class="sig-name descname">RobotFeedback</code><span class="sig-paren">(</span><em class="sig-param">address</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for the Mecademic Robot allowing for live positional
+feedback of the Mecademic Robot</p>
+<dl class="attribute">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.Address">
+<code class="sig-name descname">Address</code><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.Address" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP Address</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.socket">
+<code class="sig-name descname">socket</code><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>socket connecting to physical Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>socket</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.joints">
+<code class="sig-name descname">joints</code><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.joints" title="Permalink to this definition">¶</a></dt>
+<dd><p>joint angle in degrees of each joint starting from joint 1 going all
+way to joint 6</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.cartesian">
+<code class="sig-name descname">cartesian</code><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>the cartesian values in mm and degrees of the TRF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.Connect">
+<code class="sig-name descname">Connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.Connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects Mecademic Robot object communication to the physical Mecademic Robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>status</strong> – Return whether the connection is established</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.Disconnect">
+<code class="sig-name descname">Disconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.Disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnects Mecademic Robot object from physical Mecademic Robot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MecademicRobot.RobotFeedback.RobotFeedback.getData">
+<code class="sig-name descname">getData</code><span class="sig-paren">(</span><em class="sig-param">delay=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#MecademicRobot.RobotFeedback.RobotFeedback.getData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives message from the Mecademic Robot and
+saves the values in appropriate variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>delay</strong> (<em>int</em><em> or </em><em>float</em>) – time to set for timeout of the socket</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-MecademicRobot">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-MecademicRobot" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MecademicRobot package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-MecademicRobot.RobotController">MecademicRobot.RobotController module</a></li>
+<li><a class="reference internal" href="#module-MecademicRobot.RobotFeedback">MecademicRobot.RobotFeedback module</a></li>
+<li><a class="reference internal" href="#module-MecademicRobot">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/MecademicRobot.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MecademicRobot 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Mecademic.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

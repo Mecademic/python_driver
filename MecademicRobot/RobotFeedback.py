@@ -1,20 +1,28 @@
 import socket
 
 class RobotFeedback:
-    """Class for the Mecademic Robot allowing for live positional 
+    r"""Class for the Mecademic Robot allowing for live positional 
     feedback of the Mecademic Robot 
 
-    Attributes:
-        Address: IP Address
-        socket: socket connecting to physical Mecademic Robot
-        joints: tuple of the joint angles in degrees
-        cartesian: tuple of the cartesian values in mm and degrees
+    Attributes
+    --------
+        Address: str
+            IP Address
+        socket: socket
+            socket connecting to physical Mecademic Robot
+        joints: tuple of floats
+            joint angle in degrees of each joint starting from joint 1 going all
+            way to joint 6
+        cartesian: tuple of floats
+            the cartesian values in mm and degrees of the TRF
     """
-
     def __init__(self, address):
-        """Constructor for an instance of the Class Mecademic Robot 
+        r"""Constructor for an instance of the Class Mecademic Robot 
 
-        :param address: The IP address associated to the Mecademic Robot
+        Parameters
+        --------
+        address: str 
+            The IP address associated to the Mecademic Robot
         """
         self.address = address
         self.socket = None
@@ -22,10 +30,12 @@ class RobotFeedback:
         self.cartesian = () #Cartesian coordinates, distances in mm, angles in degrees | [x,y,z,alpha,beta,gamma]
 
     def Connect(self):
-        """Connects Mecademic Robot object communication to the physical Mecademic Robot
-        Returns the status of the connection, true for success, false for failure
+        r"""Connects Mecademic Robot object communication to the physical Mecademic Robot
 
-        :return status: Return whether the connection is established
+        Returns
+        --------
+        status: boolean 
+            Return whether the connection is established
         """
         try:
             self.socket = socket.socket()                   #Get a socket
@@ -50,17 +60,20 @@ class RobotFeedback:
             return False
     
     def Disconnect(self):
-        """Disconnects Mecademic Robot object from physical Mecademic Robot
+        r"""Disconnects Mecademic Robot object from physical Mecademic Robot
         """
         if(self.socket is not None):
             self.socket.close()
             self.socket = None        
 
     def getData(self, delay=0.1):
-        """Receives message from the Mecademic Robot and 
+        r"""Receives message from the Mecademic Robot and 
         saves the values in appropriate variables
 
-        :param delay: time to set for timeout of the socket (int)
+        Parameters
+        --------
+        delay: int or float 
+            time to set for timeout of the socket
         """
         if self.socket is None:                         #check that the connection is established
             return                                      #if no connection, nothing to receive
@@ -73,9 +86,13 @@ class RobotFeedback:
             pass
 
     def _getJoints(self, response):
-        """Gets the joint values of the variables from the message sent by the Robot
+        r"""Gets the joint values of the variables from the message sent by the Robot.
+        Values saved to attribute joints of the object.
 
-        :param response: message received from the Robot
+        Parameters
+        --------
+        response: str
+            message received from the Robot
         """
         start = response.find("[2102]")                         #isolate data from message format
         response = response[start:]
@@ -86,9 +103,13 @@ class RobotFeedback:
         self.joints = tuple((float(x) for x in joints_str))      #convert position data to floats
     
     def _getCartesian(self, response):
-        """Gets the cartesian values of the variables from the message sent by the Robot
+        """Gets the cartesian values of the variables from the message sent by the Robot.
+        Values saved to attribute cartesian of the object.
 
-        :param response: message received from the Robot
+        Parameters
+        --------
+        response: str
+            message received from the Robot
         """
         start = response.find("[2103]")                         #isolate data from message format
         response = response[start:]
