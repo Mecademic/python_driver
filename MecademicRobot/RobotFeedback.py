@@ -13,8 +13,8 @@ class RobotFeedback:
         joints: tuple of floats
             joint angle in degrees of each joint starting from joint 1 going all
             way to joint 6
-        cartesian: tuple of floats
-            the cartesian values in mm and degrees of the TRF
+        pose: tuple of floats
+            the pose values in mm and degrees of the TRF
     """
     def __init__(self, address):
         r"""Constructor for an instance of the Class Mecademic Robot 
@@ -27,7 +27,7 @@ class RobotFeedback:
         self.address = address
         self.socket = None
         self.joints = ()    #Joint Angles, angles in degrees | [theta_1, theta_2, ... theta_n]
-        self.cartesian = () #Cartesian coordinates, distances in mm, angles in degrees | [x,y,z,alpha,beta,gamma]
+        self.pose = () #Pose coordinates, distances in mm, angles in degrees | [x,y,z,alpha,beta,gamma]
 
     def Connect(self):
         r"""Connects Mecademic Robot object communication to the physical Mecademic Robot
@@ -39,6 +39,7 @@ class RobotFeedback:
         """
         try:
             self.socket = socket.socket()                   #Get a socket
+            self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY,1)
             self.socket.settimeout(0.1)                     #set the timeout to 100ms
             try:
                 self.socket.connect((self.address, 10001))  #connect to the robot's address
@@ -81,7 +82,7 @@ class RobotFeedback:
         try:
             response = self.socket.recv(256).decode("ascii")   #read message from robot
             self._getJoints(response)
-            self._getCartesian(response)
+            self._getPose(response)
         except TimeoutError:                
             pass
 
@@ -102,9 +103,9 @@ class RobotFeedback:
         joints_str = response.split(',')
         self.joints = tuple((float(x) for x in joints_str))      #convert position data to floats
     
-    def _getCartesian(self, response):
-        """Gets the cartesian values of the variables from the message sent by the Robot.
-        Values saved to attribute cartesian of the object.
+    def _getPose(self, response):
+        """Gets the pose values of the variables from the message sent by the Robot.
+        Values saved to attribute pose of the object.
 
         Parameters
         --------
@@ -116,6 +117,6 @@ class RobotFeedback:
         end = response.find("\x00")
         response = response[:end]
         response = response.replace("[2103][","").replace("]","")
-        cartesian_str = response.split(',')
-        self.cartesian = tuple((float(x) for x in cartesian_str))      #convert position data to floats
+        pose_str = response.split(',')
+        self.pose = tuple((float(x) for x in pose_str))      #convert position data to floats
     

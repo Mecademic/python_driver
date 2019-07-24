@@ -70,6 +70,7 @@ class RobotController:
         """
         try:
             self.socket = socket.socket()                   #Get a socket
+            self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY,1)
             self.socket.settimeout(0.1)                     #set the timeout to 100ms
             try:
                 self.socket.connect((self.address, 10000))  #connect to the robot's address

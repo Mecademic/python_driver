@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="MecademicRobot",
-    version="1.0.0",
+    version="1.0.1",
     author="Mecademic",
     author_email="support@mecademic.com",
     license = "MIT",

@@ -173,9 +173,9 @@ feedback.Connect()
 while(True):
 	feedback.getData()
 	print(feedback.joints)
-	print(feedback.cartesian)
+	print(feedback.pose)
 ```
-By calling __getData()__, the values of joints and cartesian get updated with the latest received data from the robot. The format of the data for joints is (joint_1, joint_2, ..., joint_n), where n is the number of joints on the Robot and the values are in degrees. For the format of the data in cartesian, the data is of the form (x, y, z, alpha, beta, gamma), where x, y and z are in mm and alpha, beta and gamma are in degrees. This module works at its best when it is run in parallel with RobotController, either as another runnable, threading, etc. When in parallel, the live data will be refreshed at a faster speed while controlling the robot. 
+By calling __getData()__, the values of joints and pose get updated with the latest received data from the robot. The format of the data for joints is (joint_1, joint_2, ..., joint_n), where n is the number of joints on the Robot and the values are in degrees. For the format of the data in pose, the data is of the form (x, y, z, alpha, beta, gamma), where x, y and z are in mm and alpha, beta and gamma are in degrees. This module works at its best when it is run in parallel with RobotController, either as another runnable, threading, etc. When in parallel, the live data will be refreshed at a faster speed while controlling the robot. 
 
 ## Getting Help
 
