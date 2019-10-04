@@ -85,7 +85,7 @@ To make a runnable script, the above functions calls remain the same in the scri
 def AutoRepair(robot):
     if(robot.isInError()):
         robot.ResetError()
-    elif(robot.GetStatus()['Paused']==1):
+    elif(robot.GetStatusRobot()['Paused']==1):
         robot.ResumeMotion()
 ```
 Note: Deactivating and reactivating the Robot is not necessary but can be helpful in power cycle recovery.
