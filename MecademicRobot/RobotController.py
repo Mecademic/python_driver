@@ -1,6 +1,8 @@
 import socket
 import time
 
+
+
 class RobotController:
     """Class for the Mecademic Robot allowing for communication and control of the 
     Mecademic Robot with all of its features available
@@ -17,12 +19,15 @@ class RobotController:
 
         :param address: The IP address associated to the Mecademic Robot
         """
+        
         self.address = address
         self.socket = None
         self.EOB = 1
         self.EOM = 1
         self.error = False
-
+        self.queue = False
+        
+        
     def isInError(self):
         """Status method that checks whether the Mecademic Robot is in error mode.
         Returns 1 for error and 0 otherwise.
@@ -147,7 +152,7 @@ class RobotController:
             self.error = True
         return response                                 #return the retrieved message
 
-    def exchangeMsg(self, cmd, delay = 20, decode=True):
+    def exchangeMsg(self, cmd, delay = 20, decode = True):
         """Sends and receives with the Mecademic Robot
 
         :param cmd: Command to send to the Mecademic Robot  (string)
@@ -157,27 +162,30 @@ class RobotController:
         response_list = self._getAnswerList(cmd)
         if(not self.error):                                 #if there is no error
             status = self._send(cmd)                        #send the command to the robot
-            if status is True:                           #if the command was sent
-                answer = self._receive(response_list, delay)#get response from robot
-                if answer is not None:                      #if message was retrieved
-                    for response in response_list:          #search for response codes
-                        if self._response_contains(answer, [str(response)]): 
-                            if(decode):
-                                return self._decodeMsg(answer, response)   #decrypt response based on right response code
-                            else:
-                                return answer
-                    error_list = [str(i) for i in range(1000, 1039)]+[str(i) for i in [3001,3003,3005,3009,3014,3026]]  #Make error codes in a comparable format
-                    for response in error_list:
-                        if self._response_contains(answer, [str(response)]): 
-                            if(decode):
-                                return self._decodeMsg(answer, response)   #decrypt response based on right response code
-                            else:
-                                return answer
+            if status is True:                              #if the command was sent
+                if self.queue:                              #if Queueing enabled skip receving responses
+                    return
                 else:
-                    if(len(response_list) == 0):            #if we aren't expecting anything, don't bother looking
-                        return
+                    answer = self._receive(response_list, delay)#get response from robot
+                    if answer is not None:                      #if message was retrieved
+                        for response in response_list:          #search for response codes
+                            if self._response_contains(answer, [str(response)]): 
+                                if(decode):
+                                    return self._decodeMsg(answer, response)   #decrypt response based on right response code
+                                else:
+                                    return answer
+                        error_list = [str(i) for i in range(1000, 1039)]+[str(i) for i in [3001,3003,3005,3009,3014,3026]]  #Make error codes in a comparable format
+                        for response in error_list:
+                            if self._response_contains(answer, [str(response)]): 
+                                if(decode):
+                                    return self._decodeMsg(answer, response)   #decrypt response based on right response code
+                                else:
+                                    return answer
                     else:
-                        return
+                        if(len(response_list) == 0):            #if we aren't expecting anything, don't bother looking
+                            return
+                        else:
+                            return
 
             #if message didn't send correctly, reboot communication
             self.Disconnect()
@@ -333,10 +341,13 @@ class RobotController:
         :param e: Enables (1) EOM or Disables (0) EOM
         :return response: Returns receive decrypted response
         """
+        
         if(e == 1):
             self.EOM = 1
+            
         else:
             self.EOM = 0
+        
         raw_cmd = "SetEOM"
         cmd = self._buildCommand(raw_cmd,[e])
         return self.exchangeMsg(cmd)    
@@ -695,3 +706,21 @@ class RobotController:
         """
         cmd = "BrakesOff"
         return self.exchangeMsg(cmd)
+
+    def Queue(self,e):
+        """ Enables the queueing of Move Commands for Blending
+        :param e: Enables (1) Queueing or Disables (0) Queueing
+        :return response: Returns receive decrypted response
+        """
+        
+        if (e == 1):
+            self.queue = True
+            self.UserEOM = self.EOM
+            self.SetEOM(0)
+        else:
+            self.queue = False
+            self.SetEOM(self.UserEOM)
+        return self.queue
+
+        
+
