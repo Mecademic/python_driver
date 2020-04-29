@@ -166,9 +166,15 @@ If the script you wrote is one you wish the Robot to repeat until stopped by a u
 ## Get Live Positional Feedback from the Robot
 
 The robot is capable of giving it's position while in movement and the RobotFeedback module of the MecademicRobot package allows the user to have access to that data. If the module is run in interactive shell or in a script, the best way to get data as fast as possible to another file or to be printed to the user is by using the module in an infinite loop. 
+
+The RobotFeedback constructor takes in two arguments, the IP address of the robot and the firmware version of the robot. Both are of the string variable type. The functions call looks as follows:
+```py
+feedback = MecademicRobot.RobotFeedback(IP, firmware_version)
+```
+An example for how to use the RobotFeedback module is as follows:
 ```py
 import MecademicRobot
-feedback = MecademicRobot.RobotFeedback('192.168.0.100')
+feedback = MecademicRobot.RobotFeedback('192.168.0.100', '7.0.6')
 feedback.Connect()
 while(True):
 	feedback.getData()
