@@ -272,7 +272,7 @@ class RobotFeedback:
             if(self.version_regex[0] <= 7):
                 return ["[2103]"]
             elif(self.version_regex[0] > 7):
-                return ["[2026]","[2211]"]
+                return ["[2027]","[2211]"]
             
         elif param.find('JointsVel') != -1:
             return ["[2212]"]
