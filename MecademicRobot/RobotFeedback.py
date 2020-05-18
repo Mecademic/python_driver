@@ -63,11 +63,10 @@ class RobotFeedback:
                 raise RuntimeError
             self.socket.settimeout(1)                       #set timeout to 1 seconds
             try:
-                msg = self.socket.recv(256).decode("ascii")   #read message from robot
-                
                 if(self.version_regex[0] <= 7):
-                    self.getData(msg)
-                elif(self.version_regex[0] > 7):
+                    self.getData()
+                elif(self.version_regex[0] > 7):              #RobotStatus and GripperStatus are sent on 10001 upon connecting from 8.x firmware
+                    msg = self.socket.recv(256).decode("ascii")   #read message from robot            
                     self._getRobotStatus(msg)
                     self._getGripperStatus(msg)
                 return True
@@ -99,13 +98,10 @@ class RobotFeedback:
             return                                      #if no connection, nothing to receive
         self.socket.settimeout(delay)                   #set read timeout to desired delay
         try:
-            raw_msg = self.socket.recv(256).decode("ascii")   #read message from robot
-            
+            raw_msg = self.socket.recv(256).decode("ascii")         #read message from robot
             raw_response = raw_msg.split("\x00")                    # Split the data at \x00 to manage fragmented data
             raw_response[0] = self.last_msg_chunk + raw_response[0] # Merge the first data with last fragment from previous data stream
             self.last_msg_chunk = raw_response[-1]
-
-            
                 
             for response in raw_response[:-1]:
                 if(self.version_regex[0] <= 7):
