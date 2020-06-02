@@ -275,7 +275,7 @@ class RobotFeedback:
         elif param.find('TorqueRatio') != -1:
             return ["[2213]"]
         elif param.find('AccelerometerData') != -1:
-            return ["[2214]"]
+            return ["[2220]"]
         else:
             return ["Invalid"]
 
