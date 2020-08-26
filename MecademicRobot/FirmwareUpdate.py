@@ -106,7 +106,7 @@ def update_robot(file_path, ip_address):
 
 
 def wait_for_robot_reboot(time_in_second):
-    ''' Waiting dalay to let the robot finish updating.
+    ''' Waiting delay to let the robot finish updating.
         Param time_in_second : waiting time for the robot reboot.
     '''
     time.sleep(time_in_second)
