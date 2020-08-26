@@ -102,7 +102,7 @@ def update_robot(file_path, ip_address):
         time.sleep(2)
 
     print(f'Update done')
-    time.sleep(40)
+    wait_for_robot_reboot(40)
 
 
 def wait_for_robot_reboot(time_in_second):
