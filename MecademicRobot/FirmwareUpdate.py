@@ -4,113 +4,171 @@ import argparse
 import requests
 import time
 import json
+import RobotController as RC
 
+def get_args():
+    """Command line interface to get arguments
 
-def main():
-    ''' Update the robot firmware with the one given.
-    '''
-    [robot_fw_path, robot_ip_address] = cli()
-    update_robot(robot_fw_path, robot_ip_address)
+    Command line interface to collect the robot IP address and the path
+    of the firmware file.
 
+    Returns
+    -------
+    string
+        Path the the robot firmware file for the robot update.
+    string
+        HTTP address of the robot to update.
 
-def cli():
-    ''' Command line interface to collect the robot IP address and the path of the firmware
-    '''
-    parser = argparse.ArgumentParser(description='Run the firmware Update of the robot.')
-    parser.add_argument('--robot_fw_path',
-                        metavar='robot_fw_path',
-                        type=str,
-                        nargs='+',
-                        default='.',
-                        help='The path of the firmware to update the robot.')
-    parser.add_argument('--robot_ip_address',
-                        metavar='robot_ip_address',
-                        type=str,
-                        nargs='+',
-                        default=["192.168.0.100"],
-                        help='The IP of the robot that will be update.')
+    """
+    parser = argparse.ArgumentParser(
+            description='Run the firmware Update of the robot.')
+    parser.add_argument(
+            '--robot_fw_path',
+            metavar='robot_fw_path',
+            type=str,
+            nargs='+',
+            default='.',
+            help='The path of the firmware to update the robot.')
+    parser.add_argument(
+            '--robot_ip_address',
+            metavar='robot_ip_address',
+            type=str,
+            nargs='+',
+            default=['192.168.0.100'],
+            help='The IP of the robot that will be update.')
     args = parser.parse_args(sys.argv[1:])
-    return [args.robot_fw_path[0], f'http://' + args.robot_ip_address[0] + f'/']
-
+    return [args.robot_fw_path[0], args.robot_ip_address[0]]
 
 def update_robot(file_path, ip_address):
-    ''' Send the update specified by file_path to the robot.
-        Param file_path : Path to the firware file
-        Param ip_address: IP Address of the robot to update
-    '''
+    """Send the update specified by file_path to the robot.
 
-    # open the file
-    print(f'Opening firmware file...')
-    update_file = open(file_path, 'rb')
-    update_data = update_file.read()
-    update_file_size = len(update_data)
+    Parameters
+    ----------
+    Param file_path : string
+        Path to the firware file
+    Param ip_address: string
+        IP Address of the robot to update
 
-    print(f'Done. \nUpdate size is: ' + str(update_file_size) + 'B.')
-    print(f'Uploading file...')
+    """
+    REQUEST_GET_TIMEOUT = 10
+    ip_address_long = f'http://{ip_address}/'
+    robot_inst = RC.RobotController(ip_address)
+    if robot_inst.connect() :
+        robot_inst.disconnect()
+        print(f'Opening firmware file...')
+        with open(file_path, 'rb') as update_file:
+            update_data = update_file.read()
+            update_file_size_str = str(len(update_data))
+        print(f'Done, update size is: {update_file_size_str}B.')
 
-    headers = {'Connection': 'keep-alive',
-               'Content-type': 'application/x-gzip',
-               'Content-Length': str(update_file_size)}
+        print(f'Uploading file...')
+        headers = {'Connection': 'keep-alive',
+                   'Content-type': 'application/x-gzip',
+                   'Content-Length': update_file_size_str}
+        r = requests.post(ip_address_long, data=update_data, headers=headers)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as errh:
+            print(f'HTTP request error when posting Update request.')
+            print(f'Error: {errh}')
+            print(f'Firmware upload request failed.')
+            sys.exit()
+        except requests.exceptions.ConnectionError as errc:
+            print(f'HTTP request connection error when posting Update request.')
+            print(f'Error: {errc}')
+            print(f'Firmware upload request failed.')
+            sys.exit()
+        except requests.exceptions.Timeout as errt:
+            print(f'HTTP request timeout when posting Update request.')
+            print(f'Error: {errt}')
+            print(f'Firmware upload request failed.')
+            sys.exit()
+        except requests.exceptions.RequestException as err:
+            print(f'HTTP request return a connection Error when posting Update request.')
+            print(f'Error: {err}')
+            print(f'Firmware upload request failed.')
+            sys.exit()
 
-    try:
-        r = requests.post(ip_address, data=update_data, headers=headers)
-    except requests.Timeout:
-        print(f'timeout ...')
-        sys.exit()
-    except requests.ConnectionError as e:
-        print(f'Connection Error ...')
-        print(f'e: {e}')
-        sys.exit()
+        print('Upgrading the robot...')
+        update_done = False
+        progress = ''
+        last_progress = ''
+        while not update_done:
+            r = requests.get(ip_address_long, 'update', timeout=REQUEST_GET_TIMEOUT)
+            try:
+                r.raise_for_status()
+            except requests.exceptions.HTTPError as errh:
+                print(f'HTTP request error when posting Update request.')
+                print(f'Error: {errh}')
+                print(f'Firmware upgrading failed.')
+                sys.exit()
+            except requests.exceptions.ConnectionError as errc:
+                print(f'HTTP request connection error when posting Update request.')
+                print(f'Error: {errc}')
+                print(f'Firmware upgrading failed.')
+                sys.exit()
+            except requests.exceptions.Timeout as errt:
+                print(f'HTTP request timeout when posting Update request.')
+                print(f'Error: {errt}')
+                print(f'Firmware upgrading failed.')
+                sys.exit()
+            except requests.exceptions.RequestException as err:
+                print(f'HTTP request return a connection Error when posting Update request.')
+                print(f'Error: {err}')
+                print(f'Firmware upgrading failed.')
+                sys.exit()
 
-    if not r.ok:
-        raise RuntimeError('Firmware upload request failed.')
+            if r.status_code == 200:
+                resp = r.text
+            else:
+                resp = None
+            # while the json file is note created, get will return 0
+            if (resp is None) or (resp == '0'):
+                continue
 
-    update_done = False
-    print('Upgrading:')
+            try:
+                request_answer = json.loads(resp)
+            except:
+                print(f'{resp}')
+                continue
+            del(r)
+            del(resp)
 
-    progress = ''
-    last_progress = ''
+            if request_answer.get('STATUS'):
+                status_code = int(request_answer.get('STATUS').get('Code'))
+                status_msg = request_answer.get('STATUS').get('MSG')
+            if status_code == -1:
+                print(f'{status_msg}')
+                raise RuntimeError('Error while updating')
+            elif status_code == 0:
+                update_done = True
+                print(f'{status_msg}')
+            elif status_code == 1:
+                keys = sorted(request_answer.get('LOG').keys())
+                if keys:
+                    last_progress = progress
+                    progress = request_answer.get('LOG').get(keys[-1])
+                    new_progress = progress.replace(last_progress, '')
+                    if '#' in new_progress:
+                        print(f' ', end='')
+                    print(f'{new_progress}', end='', flush='True')
+                    if '100%' in new_progress:
+                        print(f'')
+            time.sleep(2)
 
-    while not update_done:
-
-        r = requests.get(ip_address, 'update', timeout=10)
-        if r.text == '0':
-            continue
-        time.sleep(1)
-        request_answer = json.loads(r.text)
-
-        status_code = int(request_answer.get('STATUS').get('Code'))
-
-        if status_code == -1:
-            print(f'{request_answer.get("STATUS").get("MSG")}')
-            raise RuntimeError('Error while updating')
-        elif status_code == 0:
-            update_done = True
-            print(f'{request_answer.get("STATUS").get("MSG")}')
-        elif status_code == 1:
-            keys = sorted(request_answer.get('LOG').keys())
-            if keys:
-                last_progress = progress
-                progress = request_answer.get('LOG').get(keys[-1])
-                new_progress = progress.replace(last_progress, '')
-                if "#" in new_progress:
-                    print(f'', end='')
-                print(f'{new_progress}', end='')
-                if '100%' in new_progress:
-                    print(f'')
-
-        time.sleep(2)
-
-    print(f'Update done')
-    wait_for_robot_reboot(40)
-
-
-def wait_for_robot_reboot(time_in_second):
-    ''' Waiting delay to let the robot finish updating.
-        Param time_in_second : waiting time for the robot reboot.
-    '''
-    time.sleep(time_in_second)
+        print(f'Update done')
+        time.sleep(5)
+        print(f'Rebooting ...', end='', flush='True')
+        while(not robot_inst.connect()):
+            time.sleep(1)
+            print(f'...', end='', flush='True')
+        print(f'\nRebooting done.')
+        robot_inst.disconnect()
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    """Update the robot firmware.
+
+    """
+    [robot_fw_path, robot_ip_address] = get_args()
+    update_robot(robot_fw_path, robot_ip_address)
