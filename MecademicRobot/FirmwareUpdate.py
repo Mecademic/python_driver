@@ -137,13 +137,8 @@ def update_robot(file_path, ip_address):
             if request_answer.get('STATUS'):
                 status_code = int(request_answer.get('STATUS').get('Code'))
                 status_msg = request_answer.get('STATUS').get('MSG')
-            if status_code == -1:
-                print(f'{status_msg}')
-                raise RuntimeError('Error while updating')
-            elif status_code == 0:
-                update_done = True
-                print(f'{status_msg}')
-            elif status_code == 1:
+
+            if status_code in [0, 1]:
                 keys = sorted(request_answer.get('LOG').keys())
                 if keys:
                     last_progress = progress
@@ -154,6 +149,13 @@ def update_robot(file_path, ip_address):
                     print(f'{new_progress}', end='', flush='True')
                     if '100%' in new_progress:
                         print(f'')
+                if status_code == 0:
+                    update_done = True
+                    print(f'{status_msg}')
+            else:
+                print(f'{status_msg}')
+                raise RuntimeError('Error while updating')
+
             time.sleep(2)
 
         print(f'Update done')
