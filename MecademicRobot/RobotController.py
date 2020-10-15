@@ -17,9 +17,9 @@ class RobotController:
         Setting for EOB (End of Block) reply.
     EOM : int
         Setting for EOM (End of Movement) reply.
-    error : booleen
+    error : boolean
         Error Status of the Mecademic Robot.
-    queue : booleen
+    queue : boolean
         Queuing option flag.
 
     """
@@ -40,26 +40,26 @@ class RobotController:
         self.error = False
         self.queue = False
 
-    def is_inerror(self):
+    def is_in_error(self):
         """Status method that checks whether the Mecademic Robot is in error mode.
 
         Return the global variable error, which is updated by the other methods.
 
         Returns
         -------
-        error : booleen
+        error : boolean
             Returns the error flag, True for error and False otherwise.
 
         """
         return self.error
 
-    def reset_error(self):
+    def ResetError(self):
         """Resets the error in the Mecademic Robot.
 
         Returns
         -------
         response : string
-            Message from the robor.
+            Message from the robot.
 
         """
         self.error = False
@@ -77,7 +77,7 @@ class RobotController:
 
         Returns
         -------
-        status : booleen
+        status : boolean
             Returns the status of the connection, true for success, false for failure
 
         """
@@ -283,8 +283,8 @@ class RobotController:
         if(len(arg_list)!=0):
             command = command + '('
             for index in range(0, (len(arg_list)-1)):
-                command = command+str(arg_list[index])+',' # use .join()
-            command = command+str(arg_list[-1])+')'  # use .join()
+                command = command+str(arg_list[index])+','
+            command = command+str(arg_list[-1])+')'
         return command
 
     def _decode_msg(self, response, response_key):
@@ -378,7 +378,7 @@ class RobotController:
                         break
             return answer_list
 
-    def activate(self):
+    def ActivateRobot(self):
         """Activates the Mecademic Robot.
 
         Returns
@@ -390,7 +390,7 @@ class RobotController:
         cmd = 'ActivateRobot'
         return self.exchange_msg(cmd)
 
-    def deactivate(self):
+    def DeactivateRobot(self):
         """Deactivates the Mecademic Robot.
 
         Returns
@@ -402,7 +402,7 @@ class RobotController:
         cmd = 'DeactivateRobot'
         return self.exchange_msg(cmd)
 
-    def activatesim(self):
+    def ActivateSim(self):
         """Activates the Mecademic Robot simulation mode.
 
         Returns
@@ -414,7 +414,7 @@ class RobotController:
         cmd = 'ActivateSim'
         return self.exchange_msg(cmd)
 
-    def deactivatesim(self):
+    def DeactivateSim(self):
         """Deactivate the Mecademic Robot simulation mode.
 
         Returns
@@ -426,7 +426,7 @@ class RobotController:
         cmd = 'DeactivateSim'
         return self.exchange_msg(cmd)
 
-    def switch2etherCAT(self):
+    def SwitchToEtherCAT(self):
         """Places the Mecademic Robot in EtherCat mode
 
         Returns
@@ -438,7 +438,7 @@ class RobotController:
         cmd = 'SwitchToEtherCAT'
         return self.exchange_msg(cmd)
     
-    def setEOB(self, e):
+    def SetEOB(self, e):
         """Sets End of Block answer active or inactive in the Mecademic Robot.
 
         Parameters
@@ -460,7 +460,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[e])
         return self.exchange_msg(cmd)
 
-    def setEOM(self, e):
+    def SetEOM(self, e):
         """Sets End of Movement answer active or inactive in the Mecademic Robot.
 
         Parameters
@@ -494,7 +494,7 @@ class RobotController:
         cmd = 'Home'
         return self.exchange_msg(cmd)
 
-    def delay(self, t):
+    def Delay(self, t):
         """Gives the Mecademic Robot a wait time before performing another action.
 
         Parameters
@@ -510,11 +510,11 @@ class RobotController:
         """
         if(not isinstance(t,float)):
             t = float(t)
-        raw_cmd = 'delay'
+        raw_cmd = 'Delay'
         cmd = self._build_command(raw_cmd,[t])
         return self.exchange_msg(cmd, t*2)
 
-    def gripperopen(self):
+    def GripperOpen(self):
         """Opens the gripper of the end-effector.
 
         Returns
@@ -526,7 +526,7 @@ class RobotController:
         cmd = 'GripperOpen'
         return self.exchange_msg(cmd)
 
-    def gripperclose(self):
+    def GripperClose(self):
         """Closes the gripper of the end-effector.
 
         Returns
@@ -538,7 +538,7 @@ class RobotController:
         cmd = 'GripperClose'
         return self.exchange_msg(cmd)
 
-    def movejoints(self, theta_1, theta_2, theta_3, theta_4, theta_5, theta_6):
+    def MoveJoints(self, theta_1, theta_2, theta_3, theta_4, theta_5, theta_6):
         """Moves the joints of the Mecademic Robot to the desired angles.
 
         Parameters
@@ -566,7 +566,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[theta_1,theta_2,theta_3,theta_4,theta_5,theta_6])
         return self.exchange_msg(cmd)
 
-    def movelin(self, x, y, z, alpha, beta, gamma):
+    def MoveLin(self, x, y, z, alpha, beta, gamma):
         """Moves the Mecademic Robot tool reference in a straight line to final
         point with specified direction
 
@@ -595,7 +595,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def movelinrelTRF(self, x, y, z, alpha, beta, gamma):
+    def MoveLinRelTRF(self, x, y, z, alpha, beta, gamma):
         """Moves the Mecademic Robot tool reference frame to specified coordinates and heading.
 
         Parameters
@@ -623,7 +623,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def movelinrelWRF(self, x, y, z, alpha, beta, gamma):
+    def MoveLinRelWRF(self, x, y, z, alpha, beta, gamma):
         """Moves the Mecademic Robot world reference frame to specified coordinates and heading.
 
         Parameters
@@ -651,7 +651,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def movepose(self, x, y, z, alpha, beta, gamma):
+    def MovePose(self, x, y, z, alpha, beta, gamma):
         """Moves the Mecademic Robot joints to have the TRF at (x,y,z)
         with heading (alpha, beta, gamma).
 
@@ -680,7 +680,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def setblending(self, p):
+    def SetBlending(self, p):
         """Sets the blending of the Mecademic Robot.
 
         Parameters
@@ -698,13 +698,13 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
 
-    def setautoconf(self, e):
+    def SetAutoConf(self, e):
         """Enables or Disables the automatic robot configuration 
         selection and has effect only on the MovePose command.
 
         Parameters
         ----------
-        e : booleen
+        e : boolean
             Enable(1)/Disable(0) Mecademic Robot's automatic configuration selection.
 
         Returns
@@ -717,7 +717,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[e])
         return self.exchange_msg(cmd)
 
-    def setcartacc(self, p):
+    def SetCartAcc(self, p):
         """Sets the cartesian accelerations of the linear and angular movements of the 
         Mecademic Robot end effector.
 
@@ -736,7 +736,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
 
-    def setcartangvel(self, w):
+    def SetCartAngVel(self, w):
         """Sets the cartesian angular velocity of the Mecademic Robot TRF with respect to its WRF.
 
         Parameters
@@ -754,7 +754,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[w])
         return self.exchange_msg(cmd)
 
-    def setcartlinvel(self, v):
+    def SetCartLinVel(self, v):
         """Sets the cartesian linear velocity of the Mecademic Robot's TRF relative to its WRF.
 
         Parameters
@@ -772,7 +772,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[v])
         return self.exchange_msg(cmd)
 
-    def setconf(self, c1, c3, c5):
+    def SetConf(self, c1, c3, c5):
         """Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the 
         MovePose command.
 
@@ -795,7 +795,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[c1,c3,c5])
         return self.exchange_msg(cmd)
     
-    def setgripperforce(self, p):
+    def SetGripperForce(self, p):
         """Sets the Gripper's grip force.
 
         Parameters
@@ -813,7 +813,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
 
-    def setgrippervel(self, p):
+    def SetGripperVel(self, p):
         """Sets the Gripper fingers' velocity with respect to the gripper.
 
         Parameters
@@ -831,7 +831,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
     
-    def setjointacc(self, p):
+    def SetJointAcc(self, p):
         """Sets the acceleration of the joints.
 
         Parameters
@@ -849,7 +849,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
     
-    def setjointvel(self, velocity):
+    def SetJointVel(self, velocity):
         """Sets the angular velocities of the Mecademic Robot's joints.
 
         Parameters
@@ -867,7 +867,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[velocity])
         return self.exchange_msg(cmd)
 
-    def setTRF(self, x, y, z, alpha, beta, gamma):
+    def SetTRF(self, x, y, z, alpha, beta, gamma):
         """Sets the Mecademic Robot TRF at (x,y,z) and heading (alpha, beta, gamma)
         with respect to the FRF.
 
@@ -896,7 +896,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def setWRF(self, x, y, z, alpha, beta, gamma):
+    def SetWRF(self, x, y, z, alpha, beta, gamma):
         """Sets the Mecademic Robot WRF at (x,y,z) and heading (alpha, beta, gamma)
         with respect to the BRF.
 
@@ -925,7 +925,7 @@ class RobotController:
         cmd = self._build_command(raw_cmd,[x,y,z,alpha,beta,gamma])
         return self.exchange_msg(cmd)
 
-    def getstatusrobot(self):
+    def GetStatusRobot(self):
         """Retrieves the robot status of the Mecademic Robot.
 
         Returns
@@ -948,7 +948,7 @@ class RobotController:
                 'EOB': code_list_int[5],
                 'EOM': code_list_int[6]}
     
-    def getstatusgripper(self):
+    def GetStatusGripper(self):
         """Retrieves the gripper status of the Mecademic Robot.
 
         Returns
@@ -970,7 +970,7 @@ class RobotController:
                 'Error state': code_list_int[4],
                 'force overload': code_list_int[5]}
 
-    def getconf(self):
+    def GetConf(self):
         """Retrieves the current inverse kinematic configuration.
 
         Returns
@@ -982,7 +982,7 @@ class RobotController:
         cmd = 'GetConf'
         return self.exchange_msg(cmd)
 
-    def getjoints(self):
+    def GetJoints(self):
         """Retrieves the Mecademic Robot joint angles in degrees.
 
         Returns
@@ -994,7 +994,7 @@ class RobotController:
         cmd = 'GetJoints'
         return self.exchange_msg(cmd)
 
-    def getpose(self):
+    def GetPose(self):
         """Retrieves the current pose of the Mecademic Robot TRF with
         respect to the WRF.
 
@@ -1007,7 +1007,7 @@ class RobotController:
         cmd = 'GetPose'
         return self.exchange_msg(cmd)
 
-    def pausemotion(self):
+    def PauseMotion(self):
         """Stops the robot movement and holds until ResumeMotion.
 
         Returns
@@ -1019,7 +1019,7 @@ class RobotController:
         cmd = 'PauseMotion'
         return self.exchange_msg(cmd)
 
-    def resumemotion(self):
+    def ResumeMotion(self):
         """Resumes the robot movement after being Paused from PauseMotion
         or ClearMotion.
 
@@ -1032,7 +1032,7 @@ class RobotController:
         cmd = 'ResumeMotion'
         return self.exchange_msg(cmd)
 
-    def clearmotion(self):
+    def ClearMotion(self):
         """Stops the robot movement and deletes the rest of the robot's
         trajectory. Holds until a ResumeMotion.
 
@@ -1045,7 +1045,7 @@ class RobotController:
         cmd = 'ClearMotion'
         return self.exchange_msg(cmd)
 
-    def brakeson(self):
+    def BrakesOn(self):
         """These commands enables the brakes of joints 1, 2 and 3,
         if and only if the robotis powered but deactivated.
 
@@ -1058,7 +1058,7 @@ class RobotController:
         cmd = 'BrakesOn'
         return self.exchange_msg(cmd)
     
-    def brakesoff(self):
+    def BrakesOff(self):
         """These commands disables the brakes of joints 1, 2 and 3,
         if and only if the robotis powered but deactivated.
 
@@ -1076,7 +1076,7 @@ class RobotController:
 
         Parameters
         ----------
-        e : booleen
+        e : boolean
             Enables (1) Queueing or Disables (0) Queueing.
 
         Returns
@@ -1088,8 +1088,8 @@ class RobotController:
         if (e == 1):
             self.queue = True
             self.UserEOM = self.EOM
-            self.setEOM(0)
+            self.SetEOM(0)
         else:
             self.queue = False
-            self.setEOM(self.UserEOM)
+            self.SetEOM(self.UserEOM)
         return self.queue

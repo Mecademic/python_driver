@@ -21,7 +21,8 @@ def get_args():
 
     """
     parser = argparse.ArgumentParser(
-            description='Run the firmware Update of the robot.')
+            description=f'Run the firmware Update of the robot.',
+            epilog=f'exemple: python FirmwareUpdate.py --robot_fw_path ../../fw/v8.3.2.update --robot_ip_address m500-test-1.')
     parser.add_argument(
             '--robot_fw_path',
             metavar='robot_fw_path',
@@ -54,9 +55,15 @@ def update_robot(file_path, ip_address):
     ip_address_long = f'http://{ip_address}/'
     robot_inst = RC.RobotController(ip_address)
     if robot_inst.connect() :
+        robot_inst.DeactivateRobot()
         robot_inst.disconnect()
         print(f'Opening firmware file...')
-        with open(file_path, 'rb') as update_file:
+        try:
+            update_file = open(file_path, 'rb')
+        except OSError:
+            print(f'Could not open/read file: {file_path}.')
+            sys.exit()
+        with update_file:
             update_data = update_file.read()
             update_file_size_str = str(len(update_data))
         print(f'Done, update size is: {update_file_size_str}B.')
@@ -122,17 +129,15 @@ def update_robot(file_path, ip_address):
                 resp = r.text
             else:
                 resp = None
-            # while the json file is note created, get will return 0
+            # When the json file is not yet created, get() returns 0.
             if (resp is None) or (resp == '0'):
                 continue
 
             try:
                 request_answer = json.loads(resp)
-            except:
-                print(f'{resp}')
+            except Exception as e:
+                print(f'Failed to parse the answer "{resp}". {e}')
                 continue
-            del(r)
-            del(resp)
 
             if request_answer.get('STATUS'):
                 status_code = int(request_answer.get('STATUS').get('Code'))
