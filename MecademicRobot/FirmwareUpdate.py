@@ -4,7 +4,7 @@ import argparse
 import requests
 import time
 import json
-import RobotController as RC
+from MecademicRobot import RobotController as RC
 
 def get_args():
     """Command line interface to get arguments
