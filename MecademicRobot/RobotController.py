@@ -65,7 +65,7 @@ class RobotController:
         self.error = False
         cmd = 'ResetError'
         response = self.exchange_msg(cmd)
-        reset_success = self._response_contains(response, ['The error was reset','There was no error to reset'])
+        reset_success = self._response_contains(response, ['The error was reset', 'There was no error to reset'])
         if reset_success:
             self.error = False
         else:
@@ -83,7 +83,7 @@ class RobotController:
         """
         try:
             self.socket = socket.socket()
-            self.socket.settimeout(0.1) #100ms
+            self.socket.settimeout(0.1)  # 100ms
             try:
                 self.socket.connect((self.address, 10000))
             except socket.timeout:
@@ -93,15 +93,15 @@ class RobotController:
             if self.socket is None:
                 raise RuntimeError
 
-            self.socket.settimeout(10) #10 seconds
-            try:    
+            self.socket.settimeout(10)  # 10 seconds
+            try:
                 response = self.socket.recv(1024).decode('ascii')
             except socket.timeout:
                 raise RuntimeError
 
             if self._response_contains(response, ['[3001]']):
                 print(f'Another user is already connected, closing connection.')
-            elif self._response_contains(response, ['[3000]']): #search for key [3000] in the received packet
+            elif self._response_contains(response, ['[3000]']):     # search for key [3000] in the received packet
                 return True
             else:
                 print(f'Unexpected code returned.')
@@ -127,14 +127,14 @@ class RobotController:
 
         Parameters
         ----------
-        response : 
+        response :
             Message to scan for codes.
-        code_list : 
+        code_list :
             List of codes to look for in the response.
 
         Returns
         -------
-        response_found : 
+        response_found :
             Returns whether the response contains a code ID of interest.
 
         """
@@ -169,7 +169,7 @@ class RobotController:
             except:
                 break
             if status != 0:
-                return True                                 #return true when the message has been sent 
+                return True                                 #return true when the message has been sent
                                                             #Message failed to be sent, return false
         return False
 
@@ -239,14 +239,14 @@ class RobotController:
                     answer = self._receive(response_list, delay)#get response from robot
                     if answer is not None:                      #if message was retrieved
                         for response in response_list:          #search for response codes
-                            if self._response_contains(answer, [str(response)]): 
+                            if self._response_contains(answer, [str(response)]):
                                 if(decode):
                                     return self._decode_msg(answer, response)   #decrypt response based on right response code
                                 else:
                                     return answer
                         error_list = [str(i) for i in range(1000, 1039)]+[str(i) for i in [3001,3003,3005,3009,3014,3026]]  #Make error codes in a comparable format
                         for response in error_list:
-                            if self._response_contains(answer, [str(response)]): 
+                            if self._response_contains(answer, [str(response)]):
                                 if(decode):
                                     return self._decode_msg(answer, response)   #decrypt response based on right response code
                                 else:
@@ -306,7 +306,7 @@ class RobotController:
         """
         code = response.replace('['+str(response_key)+'][', '').replace(']', '').replace('\x00', '')    #remove delimiters and \x00 bytes
         code_list = code.split(',')                         #split packets into their individual selves
-        if(response_key == 2026 or response_key == 2027):   #if expected packet is from GetJoints (2026) or GetPose (2027), rest of packet is position data 
+        if(response_key == 2026 or response_key == 2027):   #if expected packet is from GetJoints (2026) or GetPose (2027), rest of packet is position data
             code_list_float = tuple((float(x) for x in code_list))      #convert position data to floats
             return code_list_float
         elif(response_key == 2029 or response_key == 2007 or response_key == 2079): #if expected packet is from GetConf (2029), GetStatusRobot (2007) or GetStatusGripper (2079), rest of packet is data
@@ -356,7 +356,7 @@ class RobotController:
             return [2002,2003]
         elif(command.find('PauseMotion')!= -1):
             answer_list = [2042]
-            if(self.EOM == 1): 
+            if(self.EOM == 1):
                 answer_list.append(3004)
             return answer_list
         elif(command.find('ResetError')!= -1):
@@ -437,7 +437,7 @@ class RobotController:
         """
         cmd = 'SwitchToEtherCAT'
         return self.exchange_msg(cmd)
-    
+
     def SetEOB(self, e):
         """Sets End of Block answer active or inactive in the Mecademic Robot.
 
@@ -699,7 +699,7 @@ class RobotController:
         return self.exchange_msg(cmd)
 
     def SetAutoConf(self, e):
-        """Enables or Disables the automatic robot configuration 
+        """Enables or Disables the automatic robot configuration
         selection and has effect only on the MovePose command.
 
         Parameters
@@ -718,7 +718,7 @@ class RobotController:
         return self.exchange_msg(cmd)
 
     def SetCartAcc(self, p):
-        """Sets the cartesian accelerations of the linear and angular movements of the 
+        """Sets the cartesian accelerations of the linear and angular movements of the
         Mecademic Robot end effector.
 
         Parameters
@@ -773,7 +773,7 @@ class RobotController:
         return self.exchange_msg(cmd)
 
     def SetConf(self, c1, c3, c5):
-        """Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the 
+        """Sets the desired Mecademic Robot inverse kinematic configuration to be observed in the
         MovePose command.
 
         Parameters
@@ -794,7 +794,7 @@ class RobotController:
         raw_cmd = 'SetConf'
         cmd = self._build_command(raw_cmd,[c1,c3,c5])
         return self.exchange_msg(cmd)
-    
+
     def SetGripperForce(self, p):
         """Sets the Gripper's grip force.
 
@@ -830,7 +830,7 @@ class RobotController:
         raw_cmd = 'SetGripperVel'
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
-    
+
     def SetJointAcc(self, p):
         """Sets the acceleration of the joints.
 
@@ -848,7 +848,7 @@ class RobotController:
         raw_cmd = 'SetJointAcc'
         cmd = self._build_command(raw_cmd,[p])
         return self.exchange_msg(cmd)
-    
+
     def SetJointVel(self, velocity):
         """Sets the angular velocities of the Mecademic Robot's joints.
 
@@ -947,7 +947,7 @@ class RobotController:
                 'Paused': code_list_int[4],
                 'EOB': code_list_int[5],
                 'EOM': code_list_int[6]}
-    
+
     def GetStatusGripper(self):
         """Retrieves the gripper status of the Mecademic Robot.
 
@@ -1057,7 +1057,7 @@ class RobotController:
         """
         cmd = 'BrakesOn'
         return self.exchange_msg(cmd)
-    
+
     def BrakesOff(self):
         """These commands disables the brakes of joints 1, 2 and 3,
         if and only if the robotis powered but deactivated.
