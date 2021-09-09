@@ -2,6 +2,12 @@
 
 # Mecademic Python API
 
+---
+## NOTE
+This package has been deprecated and replaced with the [mecademicpy](https://github.com/Mecademic/mecademicpy) package. The [mecademicpy](https://github.com/Mecademic/mecademicpy) package has all the features of this module with many additional features making it easier to use in larger applications and more user friendly.
+
+---
+
 A python module designed for Robot products from Mecademic. The module offers tools that give access to all the features of the Mecademic Robots such as MoveLin and MoveJoints. The module can be started from a terminal or a python application and controls the Mecademic Products. 
 
 #### Supported Robots
